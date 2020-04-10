@@ -28,6 +28,12 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.upgrad.quora.service.business" />
+      <recent name="com.upgrad.quora.service.entity" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -50,7 +56,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1586442071888</updated>
-      <workItem from="1586442076342" duration="1646000" />
+      <workItem from="1586442076342" duration="2274000" />
+      <workItem from="1586484949772" duration="11782000" />
     </task>
     <servers />
   </component>
