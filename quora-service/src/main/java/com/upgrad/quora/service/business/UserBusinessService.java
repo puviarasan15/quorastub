@@ -3,16 +3,13 @@ package com.upgrad.quora.service.business;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UserEntity;
-import com.upgrad.quora.service.exception.AuthenticationFailedException;
-import com.upgrad.quora.service.exception.SignOutRestrictedException;
-import com.upgrad.quora.service.exception.SignUpRestrictedException;
+import com.upgrad.quora.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Service
 public class UserBusinessService {
@@ -78,4 +75,45 @@ public class UserBusinessService {
         userDao.updateUserAuth(userAuthEntity);
         return userAuthEntity;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UserEntity userProfile(final String accessToken, final String userId) throws AuthorizationFailedException, UserNotFoundException {
+        getUserAuthEntity(accessToken);
+        return getUserEntity(userId);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UserEntity userDelete(final String accessToken, final String userId) throws AuthorizationFailedException, UserNotFoundException {
+        UserEntity userEntity = getUserEntity(userId);
+        if(userEntity.getRole().equals("noadmin")){
+            throw new AuthorizationFailedException("ATHR-003","Unauthorized Access, Entered user is not an admin");
+        }
+        UserAuthEntity userAuthEntity = getUserAuthEntity(accessToken);
+        userDao.deleteUserAuth(userAuthEntity);
+        userDao.deleteUser(userEntity);
+        return userEntity;
+    }
+
+    private UserEntity getUserEntity(String userId) throws AuthorizationFailedException, UserNotFoundException {
+        UserEntity userEntity = userDao.getUserByUuid(userId);
+        if(userEntity == null){
+            throw new UserNotFoundException("USR-001","User with entered uuid does not exist");
+        }
+        return userEntity;
+    }
+
+    private UserAuthEntity getUserAuthEntity(String accessToken) throws AuthorizationFailedException, UserNotFoundException {
+        UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
+        if(userAuthEntity == null){
+            throw new AuthorizationFailedException("ATHR-001","User has not Signed in");
+        }
+        final ZonedDateTime now = ZonedDateTime.now();
+        long difference = now.compareTo(userAuthEntity.getLogoutAt());
+
+        if(difference > 0) {
+            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to get user details");
+        }
+        return userAuthEntity;
+    }
+
 }
