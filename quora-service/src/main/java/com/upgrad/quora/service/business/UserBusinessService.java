@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Service
 public class UserBusinessService {
@@ -52,7 +53,7 @@ public class UserBusinessService {
             final ZonedDateTime expiresAt = now.plusHours(8);
 
             userAuthTokenEntity.setAccessToken(jwtTokenProvider.generateToken(userEntity.getUuid(), now, expiresAt));
-            userAuthTokenEntity.setUuid(userEntity.getUuid());
+            userAuthTokenEntity.setUuid(UUID.randomUUID().toString());
             userAuthTokenEntity.setLoginAt(now);
             userAuthTokenEntity.setExpiresAt(expiresAt);
 
@@ -85,16 +86,17 @@ public class UserBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity userDelete(final String accessToken, final String userId) throws AuthorizationFailedException, UserNotFoundException {
         UserEntity userEntity = getUserEntity(userId);
+        UserAuthEntity userAuthEntity = getUserAuthEntity(accessToken);
         if(userEntity.getRole().equals("noadmin")){
             throw new AuthorizationFailedException("ATHR-003","Unauthorized Access, Entered user is not an admin");
         }
-        UserAuthEntity userAuthEntity = getUserAuthEntity(accessToken);
         userDao.deleteUserAuth(userAuthEntity);
         userDao.deleteUser(userEntity);
         return userEntity;
     }
 
-    private UserEntity getUserEntity(String userId) throws AuthorizationFailedException, UserNotFoundException {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UserEntity getUserEntity(String userId) throws UserNotFoundException {
         UserEntity userEntity = userDao.getUserByUuid(userId);
         if(userEntity == null){
             throw new UserNotFoundException("USR-001","User with entered uuid does not exist");
@@ -102,7 +104,8 @@ public class UserBusinessService {
         return userEntity;
     }
 
-    private UserAuthEntity getUserAuthEntity(String accessToken) throws AuthorizationFailedException, UserNotFoundException {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UserAuthEntity getUserAuthEntity(String accessToken) throws AuthorizationFailedException {
         UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
         if(userAuthEntity == null){
             throw new AuthorizationFailedException("ATHR-001","User has not Signed in");

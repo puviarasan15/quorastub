@@ -58,7 +58,7 @@ public class UserController {
         String decodedString = new String(decode);
         String[] decodedArray = decodedString.split(":");
         UserAuthEntity userAuthEntity = userBusinessService.signin(decodedArray[0], decodedArray[1]);
-        SigninResponse signinResponse = new SigninResponse().id(userAuthEntity.getUuid()).message("SIGNED IN SUCCESSFULLY");
+        SigninResponse signinResponse = new SigninResponse().id(userAuthEntity.getUser().getUuid()).message("SIGNED IN SUCCESSFULLY");
         HttpHeaders headers = new HttpHeaders();
         headers.add("access_token", userAuthEntity.getAccessToken());
         return new ResponseEntity<SigninResponse>(signinResponse, headers, HttpStatus.OK);
@@ -67,7 +67,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, path = "/user/signout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> signout(@RequestHeader("authorization") final String authorization) throws SignOutRestrictedException {
         UserAuthEntity userAuthEntity = userBusinessService.signout(authorization);
-        SignoutResponse signoutResponse = new SignoutResponse().id(userAuthEntity.getUuid()).message("SIGNED OUT SUCCESSFULLY");
+        SignoutResponse signoutResponse = new SignoutResponse().id(userAuthEntity.getUser().getUuid()).message("SIGNED OUT SUCCESSFULLY");
         return new ResponseEntity<SignoutResponse>(signoutResponse, HttpStatus.OK);
     }
 }

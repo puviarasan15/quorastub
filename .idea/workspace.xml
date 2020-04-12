@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33e4c1a4-9eb6-45b3-85e9-be0009f8a063" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/AdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/CommonController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/QuestionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/QuestionBusinessService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/QuestionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/UserBusinessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/UserBusinessService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/QuestionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/QuestionEntity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +72,8 @@
       <updated>1586442071888</updated>
       <workItem from="1586442076342" duration="2274000" />
       <workItem from="1586484949772" duration="19499000" />
-      <workItem from="1586576684402" duration="8843000" />
+      <workItem from="1586576684402" duration="20757000" />
+      <workItem from="1586669303891" duration="5454000" />
     </task>
     <servers />
   </component>
