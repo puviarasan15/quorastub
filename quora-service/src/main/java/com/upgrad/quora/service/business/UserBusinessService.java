@@ -112,10 +112,12 @@ public class UserBusinessService {
             throw new AuthorizationFailedException("ATHR-001","User has not Signed in");
         }
         final ZonedDateTime now = ZonedDateTime.now();
-        long difference = now.compareTo(userAuthEntity.getLogoutAt());
-
-        if(difference > 0) {
-            throw new AuthorizationFailedException("ATHR-002","User is signed out.Sign in first to get user details");
+        final ZonedDateTime logoutAt = userAuthEntity.getLogoutAt();
+        if(logoutAt != null) {
+            long difference = now.compareTo(logoutAt);
+            if (difference > 0) {
+                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+            }
         }
         return userAuthEntity;
     }
