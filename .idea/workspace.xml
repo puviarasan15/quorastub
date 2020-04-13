@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="33e4c1a4-9eb6-45b3-85e9-be0009f8a063" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/UserBusinessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/UserBusinessService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quora-db/src/main/resources/sql/quora.sql" beforeDir="false" afterPath="$PROJECT_DIR$/quora-db/src/main/resources/sql/quora.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quora-db/src/main/resources/sql/quora_test.sql" beforeDir="false" afterPath="$PROJECT_DIR$/quora-db/src/main/resources/sql/quora_test.sql" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +99,7 @@
       <workItem from="1586442076342" duration="2274000" />
       <workItem from="1586484949772" duration="19499000" />
       <workItem from="1586576684402" duration="20757000" />
-      <workItem from="1586669303891" duration="23024000" />
+      <workItem from="1586669303891" duration="24235000" />
     </task>
     <servers />
   </component>
