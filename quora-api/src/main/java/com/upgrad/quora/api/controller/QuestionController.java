@@ -56,7 +56,7 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.PUT, path = "/question/edit/{questionId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionEditResponse> editQuestionContent(final QuestionEditRequest questionEditRequest, @PathVariable final String questionId, @RequestHeader("authorization") final String authorization) throws SignOutRestrictedException, AuthorizationFailedException, InvalidQuestionException {
         QuestionEntity createdQuestionEntity = questionBusinessService.editQuestionContent(authorization,questionEditRequest.getContent(),questionId);
-        QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(createdQuestionEntity.getUser().getUuid()).status("QUESTION EDITED");
+        QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(createdQuestionEntity.getUuid()).status("QUESTION EDITED");
         return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
     }
 

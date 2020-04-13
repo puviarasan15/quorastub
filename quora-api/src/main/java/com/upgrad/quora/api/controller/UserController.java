@@ -43,7 +43,7 @@ public class UserController {
         userEntity.setContactNumber(signupUserRequest.getContactNumber());
         userEntity.setCountry(signupUserRequest.getCountry());
         userEntity.setDob(signupUserRequest.getDob());
-        userEntity.setRole("noadmin");
+        userEntity.setRole("nonadmin");
         userEntity.setSalt("123abc");
 
         UserEntity createdUserEntity = userBusinessService.signup(userEntity);

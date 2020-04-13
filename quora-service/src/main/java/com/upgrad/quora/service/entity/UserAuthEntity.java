@@ -30,7 +30,6 @@ public class UserAuthEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    @NotNull
     private UserEntity user;
 
     @Column(name = "ACCESS_TOKEN")

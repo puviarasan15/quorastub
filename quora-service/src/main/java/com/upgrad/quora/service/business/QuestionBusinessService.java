@@ -30,8 +30,7 @@ public class QuestionBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity createQuestion(QuestionEntity questionEntity, String accessToken) throws AuthorizationFailedException {
         UserAuthEntity userAuthEntity = userBusinessService.getUserAuthEntity(accessToken);
-        UserEntity userEntity = userDao.getUserByUserName(userAuthEntity.getUser().getUserName());
-        questionEntity.setUser(userEntity);
+        questionEntity.setUser(userAuthEntity.getUser());
         return questionDao.createQuestion(questionEntity);
     }
 
@@ -49,7 +48,8 @@ public class QuestionBusinessService {
             throw new AuthorizationFailedException("ATHR-003","Only the question owner can edit the question");
         }
         questionEntity.setContent(questionContent);
-        return questionDao.updateQuestion(questionEntity);
+        questionDao.updateQuestion(questionEntity);
+        return questionEntity;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
