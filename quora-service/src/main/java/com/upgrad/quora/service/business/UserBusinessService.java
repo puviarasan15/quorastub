@@ -88,7 +88,7 @@ public class UserBusinessService {
     public UserEntity userDelete(final String accessToken, final String userId) throws AuthorizationFailedException, UserNotFoundException {
         UserEntity userEntity = getUserEntity(userId);
         UserAuthEntity userAuthEntity = getUserAuthEntity(accessToken);
-        if(userEntity.getRole().equals("noadmin")){
+        if(userEntity.getRole().equals("nonadmin")){
             throw new AuthorizationFailedException("ATHR-003","Unauthorized Access, Entered user is not an admin");
         }
         userDao.deleteUserAuth(userAuthEntity);
