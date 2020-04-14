@@ -61,7 +61,8 @@ public class AnswerBusinessService {
         UserAuthEntity userAuthEntity = userBusinessService.getUserAuthEntity(accessToken);
         AnswerEntity answerEntity = getAnswerEntity(answerId);
         UserEntity userEntity = userAuthEntity.getUser();
-        if(userEntity.getRole().equals("admin") || !(answerEntity.getUser().equals(userEntity))){
+
+        if(!(answerEntity.getUser().getUserName().equals(userEntity.getUserName())) || userEntity.getRole().equals("nonadmin")){
             throw new AuthorizationFailedException("ATHR-003","Only the answer owner or admin can delete the answer");
         }
         answerDao.deleteAnswer(answerEntity);
