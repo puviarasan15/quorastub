@@ -57,7 +57,7 @@ public class QuestionBusinessService {
         UserAuthEntity userAuthEntity = userBusinessService.getUserAuthEntity(accessToken);
         QuestionEntity questionEntity = getQuestionEntity(questionId);
         UserEntity userEntity = userAuthEntity.getUser();
-        if(userEntity.getRole().equals("admin") || !(questionEntity.getUser().equals(userEntity))){
+        if(!(questionEntity.getUser().getUserName().equals(userEntity.getUserName())) || userEntity.getRole().equals("nonadmin")){
             throw new AuthorizationFailedException("ATHR-003","Only the question owner or admin can delete the question");
         }
         questionDao.deleteQuestion(questionEntity);
