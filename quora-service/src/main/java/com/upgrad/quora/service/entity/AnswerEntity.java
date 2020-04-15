@@ -20,6 +20,7 @@ import java.time.ZonedDateTime;
 })
 public class AnswerEntity implements Serializable {
 
+    //This is the primary key for the table
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +40,13 @@ public class AnswerEntity implements Serializable {
     @NotNull
     private ZonedDateTime date;
 
+    //This column act as a foreign key for joining the users table
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     @NotNull
     private UserEntity user;
 
+    //This column act as a foreign key for joining the question table
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     @NotNull

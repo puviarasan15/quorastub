@@ -20,6 +20,7 @@ import java.time.ZonedDateTime;
 })
 public class UserEntity implements Serializable {
 
+    //This is the primary key for the table
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

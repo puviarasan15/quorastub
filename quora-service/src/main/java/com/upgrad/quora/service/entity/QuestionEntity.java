@@ -20,6 +20,8 @@ import java.time.ZonedDateTime;
         @NamedQuery(name = "getAllQuestionsByUser", query = "select u from QuestionEntity u where u.user = :user")
 })
 public class QuestionEntity implements Serializable {
+
+    //This is the primary key for the table
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +41,7 @@ public class QuestionEntity implements Serializable {
     @NotNull
     private ZonedDateTime date;
 
+    //This column act as a foreign key for joining the users table
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
