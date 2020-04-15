@@ -30,6 +30,14 @@ public class UserController {
     @Autowired
     private UserBusinessService userBusinessService;
 
+    /*
+     * Path = "/user/signup"
+     * Action = Post
+     * Return Type = Json with Uuid of the user created and the corresponding message along with HTTP status
+     * Parameters = the SignupUserRequest with its content
+     * Description = This method will accept the parameters and then create the user in the database by sending this values to the
+     * service layer and then return the SignupUserResponse along with its parameters
+     *  */
     @RequestMapping(method = RequestMethod.POST, path = "/user/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest) throws SignUpRestrictedException {
         final UserEntity userEntity = new UserEntity();
@@ -52,6 +60,14 @@ public class UserController {
 
     }
 
+    /*
+     * Path = "/user/signin"
+     * Action = Post
+     * Return Type = Json with Uuid of the user logged in and the corresponding message along with HTTP status
+     * Parameters = access token as request header
+     * Description = This method will accept the parameters and then create the accesstoken in the database by sending this values to the
+     * service layer and then return the signin response along with its parameters
+     *  */
     @RequestMapping(method = RequestMethod.POST, path = "/user/signin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SigninResponse> signin(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException {
         byte[] decode = Base64.getDecoder().decode(authorization);
@@ -64,6 +80,14 @@ public class UserController {
         return new ResponseEntity<SigninResponse>(signinResponse, headers, HttpStatus.OK);
     }
 
+    /*
+     * Path = "/user/signout"
+     * Action = Post
+     * Return Type = Json with Uuid of the user signed out and the corresponding message along with HTTP status
+     * Parameters = access token as request header
+     * Description = This method will accept the parameters and then sign out the user in the database by sending this values to the
+     * service layer and then return the SignoutResponse along with its parameters
+     *  */
     @RequestMapping(method = RequestMethod.POST, path = "/user/signout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> signout(@RequestHeader("authorization") final String authorization) throws SignOutRestrictedException {
         UserAuthEntity userAuthEntity = userBusinessService.signout(authorization);

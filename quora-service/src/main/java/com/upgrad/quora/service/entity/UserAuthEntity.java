@@ -18,6 +18,7 @@ import java.time.ZonedDateTime;
 })
 public class UserAuthEntity implements Serializable {
 
+    //This is the primary key for the table
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,7 @@ public class UserAuthEntity implements Serializable {
     @NotNull
     private String uuid;
 
+    //This column act as a foreign key for joining the users table
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private UserEntity user;

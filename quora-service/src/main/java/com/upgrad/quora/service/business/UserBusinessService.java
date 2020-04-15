@@ -21,6 +21,12 @@ public class UserBusinessService {
     @Autowired
     private PasswordCryptographyProvider passwordCryptographyProvider;
 
+    /*
+     * Return Type = UserEntity along with their corresponding values
+     * Parameters = UserEntity questionEntity
+     * Description = This method will accept the parameters and then creates the user by sending this values to the
+     * data access layer
+     *  */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity signup(UserEntity userEntity) throws SignUpRestrictedException {
         String[] encryptedText = passwordCryptographyProvider.encrypt(userEntity.getPassword());
@@ -38,6 +44,12 @@ public class UserBusinessService {
         return userDao.createUser(userEntity);
     }
 
+    /*
+     * Return Type = UserAuthEntity along with their corresponding values
+     * Parameters = final String username, final String password
+     * Description = This method will accept the parameters and then creates the userauthentity by sending this values to the
+     * data access layer
+     *  */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity signin(final String username, final String password) throws AuthenticationFailedException {
         UserEntity userEntity = userDao.getUserByUserName(username);
@@ -66,11 +78,17 @@ public class UserBusinessService {
         }
     }
 
+    /*
+     * Return Type = UserAuthEntity along with their corresponding values
+     * Parameters = String accessToken
+     * Description = This method will accept the parameters and then signout the user by sending this values to the
+     * data access layer
+     *  */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity signout(final String accessToken) throws SignOutRestrictedException {
         UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
-        if(userAuthEntity == null){
-            throw new SignOutRestrictedException("SGR-001","User is not Signed in");
+        if (userAuthEntity == null) {
+            throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
         }
         final ZonedDateTime now = ZonedDateTime.now();
         userAuthEntity.setLogoutAt(now);
@@ -78,42 +96,66 @@ public class UserBusinessService {
         return userAuthEntity;
     }
 
+    /*
+     * Return Type = UserEntity along with their corresponding values
+     * Parameters = final String accessToken, final String userId
+     * Description = This method will accept the parameters and then gives the user profile by sending this values to the
+     * data access layer
+     *  */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity userProfile(final String accessToken, final String userId) throws AuthorizationFailedException, UserNotFoundException {
         getUserAuthEntity(accessToken);
         return getUserEntity(userId);
     }
 
+    /*
+     * Return Type = UserEntity along with their corresponding values
+     * Parameters = final String accessToken, final String userId
+     * Description = This method will accept the parameters and then deletes the user by sending this values to the
+     * data access layer
+     *  */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity userDelete(final String accessToken, final String userId) throws AuthorizationFailedException, UserNotFoundException {
         UserEntity userEntity = getUserEntity(userId);
         UserAuthEntity userAuthEntity = getUserAuthEntity(accessToken);
-        if(userEntity.getRole().equals("nonadmin")){
-            throw new AuthorizationFailedException("ATHR-003","Unauthorized Access, Entered user is not an admin");
+        if (userEntity.getRole().equals("nonadmin")) {
+            throw new AuthorizationFailedException("ATHR-003", "Unauthorized Access, Entered user is not an admin");
         }
         userDao.deleteUserAuth(userAuthEntity);
         userDao.deleteUser(userEntity);
         return userEntity;
     }
 
+    /*
+     * Return Type = UserEntity along with their corresponding values
+     * Parameters = String userId
+     * Description = This method will accept the parameters and then gives the user by sending this values to the
+     * data access layer
+     *  */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserEntity getUserEntity(String userId) throws UserNotFoundException {
         UserEntity userEntity = userDao.getUserByUuid(userId);
-        if(userEntity == null){
-            throw new UserNotFoundException("USR-001","User with entered uuid does not exist");
+        if (userEntity == null) {
+            throw new UserNotFoundException("USR-001", "User with entered uuid does not exist");
         }
         return userEntity;
     }
 
+    /*
+     * Return Type = UserAuthEntity along with their corresponding values
+     * Parameters = String accessToken
+     * Description = This method will accept the parameters and then gives the userauthentity by sending this values to the
+     * data access layer
+     *  */
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity getUserAuthEntity(String accessToken) throws AuthorizationFailedException {
         UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
-        if(userAuthEntity == null){
-            throw new AuthorizationFailedException("ATHR-001","User has not Signed in");
+        if (userAuthEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not Signed in");
         }
         final ZonedDateTime now = ZonedDateTime.now();
         final ZonedDateTime logoutAt = userAuthEntity.getLogoutAt();
-        if(logoutAt != null) {
+        if (logoutAt != null) {
             long difference = now.compareTo(logoutAt);
             if (difference > 0) {
                 throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
